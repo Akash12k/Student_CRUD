@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StudentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StudentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="S_id" />
@@ -51,6 +51,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CreateStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="S_Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="S_Age" Type="int" Mode="In" />
+          <Parameter Name="S_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Subject_opted" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="S_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="S_id" Type="int" Mode="In" />
+          <Parameter Name="S_Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="S_Age" Type="int" Mode="In" />
+          <Parameter Name="S_Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Subject_opted" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="StudentModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
@@ -64,8 +80,7 @@
             <End Role="Subjects" EntitySet="Subjects" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StudentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -131,6 +146,22 @@
             <End Role="Students" EntitySet="Students" />
             <End Role="Subjects" EntitySet="Subjects" />
           </AssociationSet>
+          <FunctionImport Name="CreateStudent" ReturnType="Collection(Int32)">
+            <Parameter Name="S_Name" Mode="In" Type="String" />
+            <Parameter Name="S_Age" Mode="In" Type="Int32" />
+            <Parameter Name="S_Address" Mode="In" Type="String" />
+            <Parameter Name="Subject_opted" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteStudent">
+          <Parameter Name="S_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateStudent">
+            <Parameter Name="S_id" Mode="In" Type="Int32" />
+            <Parameter Name="S_Name" Mode="In" Type="String" />
+            <Parameter Name="S_Age" Mode="In" Type="Int32" />
+            <Parameter Name="S_Address" Mode="In" Type="String" />
+            <Parameter Name="Subject_opted" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -163,6 +194,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateStudent" FunctionName="StudentModel.Store.CreateStudent" />
+          <FunctionImportMapping FunctionImportName="DeleteStudent" FunctionName="StudentModel.Store.DeleteStudent" />
+          <FunctionImportMapping FunctionImportName="UpdateStudent" FunctionName="StudentModel.Store.UpdateStudent" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
