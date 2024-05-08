@@ -40,36 +40,19 @@ namespace Student_CRUD.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "S_Name,S_Age")] Student student, [Bind(Prefix = "Address")] Address address, [Bind(Prefix = "Subject")] Subject subject)
+        public ActionResult Create(Student student, Address address, Subject subject)
         {
             if (ModelState.IsValid)
             {
-                student.Address = address;
-                student.Subject = subject;
+                int newStudentID = (int)db.CreateStudent(student.S_Name, student.S_Age, address.S_Address, subject.Subject_opted).SingleOrDefault();
 
-                db.Students.Add(student);
-                db.SaveChanges();
-
-                student = db.Students.Single(s => s.S_Name == student.S_Name && s.S_Age == student.S_Age);
-
-                return RedirectToAction("Index", new { id = student.S_id });
+                return RedirectToAction("Index", new { id = newStudentID });
             }
             else
             {
-                foreach (var key in ModelState.Keys)
-                {
-                    var state = ModelState[key];
-                    foreach (var error in state.Errors)
-                    {
-
-                    }
-                }
-
                 return View(student);
             }
-            return View(student);
         }
-
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -86,37 +69,19 @@ namespace Student_CRUD.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "S_id,S_Name,S_Age")] Student student, [Bind(Prefix = "Address")] Address address, [Bind(Prefix = "Subject")] Subject subject)
+        public ActionResult Edit(Student student, Address address, Subject subject)
         {
             if (ModelState.IsValid)
             {
-                var existingStudent = db.Students.Find(student.S_id);
-                var existingAddress = db.Addresses.FirstOrDefault(a => a.S_id == student.S_id); 
-                var existingSubject = db.Subjects.FirstOrDefault(s => s.S_id == student.S_id);
-
-                if (existingStudent != null)
-                {
-                    existingStudent.S_Name = student.S_Name;
-                    existingStudent.S_Age = student.S_Age;
-                }
-
-                if (existingAddress != null)
-                {
-                    existingAddress.S_Address = address.S_Address;
-                }
-
-                if (existingSubject != null)
-                {
-                    existingSubject.Subject_opted = subject.Subject_opted;
-                }
-
-                db.SaveChanges();
+                db.UpdateStudent(student.S_id, student.S_Name, student.S_Age, address.S_Address, subject.Subject_opted);
 
                 return RedirectToAction("Index");
             }
-            return View(student);
+            else
+            {
+                return View(student);
+            }
         }
-
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -132,18 +97,11 @@ namespace Student_CRUD.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]        
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Students.Find(id);
-            
-            var address = student.Address;
-            db.Addresses.Remove(address);
+            db.DeleteStudent(id);
 
-            var subject = student.Subject;
-            db.Subjects.Remove(subject);
-            db.Students.Remove(student);
-            db.SaveChanges();
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)
