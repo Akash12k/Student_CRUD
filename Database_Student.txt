@@ -1,0 +1,29 @@
+Database:Student
+
+Tables: 1.Student(S_id,S_Name,S_Age)
+        2.Address(S_id,S_Address)
+        3.Subjects(S_id,Subject_opted)
+
+Where S_id : Primary Key which is Auto Incremented
+
+
+CREATE TABLE Students (
+    S_id INT PRIMARY KEY IDENTITY(1,1),
+    S_Name VARCHAR(255) NOT NULL,
+    S_Age INT
+);
+
+
+CREATE TABLE Address (
+    S_id INT PRIMARY KEY,
+    S_Address VARCHAR(255),
+    FOREIGN KEY (S_id) REFERENCES Students(S_id)
+);
+
+CREATE TABLE Subjects (
+    S_id INT PRIMARY KEY,
+    Subject_opted VARCHAR(255),
+    FOREIGN KEY (S_id) REFERENCES Students(S_id)
+); 
+
+
