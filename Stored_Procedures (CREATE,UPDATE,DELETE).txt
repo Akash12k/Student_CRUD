@@ -1,0 +1,68 @@
+//CreateStudent
+CREATE PROCEDURE CreateStudent
+    @S_Name NVARCHAR(50),
+    @S_Age INT,
+    @S_Address NVARCHAR(100),
+    @Subject_opted NVARCHAR(50)
+AS
+BEGIN
+    -- Insert Student
+    INSERT INTO Students (S_Name, S_Age)
+    VALUES (@S_Name, @S_Age)
+
+    DECLARE @StudentID INT
+    SET @StudentID = SCOPE_IDENTITY()
+
+    -- Insert Address
+    INSERT INTO Address (S_id, S_Address)
+    VALUES (@StudentID, @S_Address)
+
+    -- Insert Subject
+    INSERT INTO Subjects (S_id, Subject_opted)
+    VALUES (@StudentID, @Subject_opted)
+
+    SELECT @StudentID AS 'NewStudentID'
+END
+
+
+//UpdateStudent
+CREATE PROCEDURE UpdateStudent
+    @S_id INT,
+    @S_Name NVARCHAR(50),
+    @S_Age INT,
+    @S_Address NVARCHAR(100),
+    @Subject_opted NVARCHAR(50)
+AS
+BEGIN
+    -- Update Student
+    UPDATE Students
+    SET S_Name = @S_Name,
+        S_Age = @S_Age
+    WHERE S_id = @S_id
+
+    -- Update Address
+    UPDATE Address
+    SET S_Address = @S_Address
+    WHERE S_id = @S_id
+
+    -- Update Subject
+    UPDATE Subjects
+    SET Subject_opted = @Subject_opted
+    WHERE S_id = @S_id
+END
+
+
+//Delete Procedure
+CREATE PROCEDURE DeleteStudent
+    @S_id INT
+AS
+BEGIN
+    -- Delete Address
+    DELETE FROM Address WHERE S_id = @S_id
+
+    -- Delete Subject
+    DELETE FROM Subjects WHERE S_id = @S_id
+
+    -- Delete Student
+    DELETE FROM Students WHERE S_id = @S_id
+END
