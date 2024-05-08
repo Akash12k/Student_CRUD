@@ -1,0 +1,33 @@
+﻿@model Student_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Student Name</th>
+            <td>@Html.DisplayFor(model => model.S_Name)</td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td>@Html.DisplayFor(model => model.S_Age)</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>@Html.DisplayFor(model => model.Address.S_Address)</td>
+        </tr>
+        <tr>
+            <th>Subject Opted</th>
+            <td>@Html.DisplayFor(model => model.Subject.Subject_opted)</td>
+        </tr>
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.S_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

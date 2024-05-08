@@ -1,0 +1,42 @@
+﻿@model Student_CRUD.Models.Student
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Student Name:</th>
+            <td>@Html.DisplayFor(model => model.S_Name)</td>
+        </tr>
+        <tr>
+            <th>Age:</th>
+            <td>@Html.DisplayFor(model => model.S_Age)</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>@Html.DisplayFor(model => model.Address.S_Address)</td>.
+        </tr>
+        <tr>
+            <th>Subject Opted:</th>
+            <td>@Html.DisplayFor(model => model.Subject.Subject_opted)</td>
+        </tr>
+    </table>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="submit" value="Delete" class="btn btn-default" style="background-color: #ff0000bd;" />
+                </td>
+                <td>
+                    @Html.ActionLink("Back to List", "Index")
+                </td>
+            </tr>
+        </table>
+    </div>
+}

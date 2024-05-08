@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Student_CRUD.Models.Student>
+
+<h2>Student List :</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Subject opted
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.S_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S_Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.S_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Subject_opted)
+            </td>
+            <td>
+                @Html.ActionLink("Insert", "Create") |
+                @Html.ActionLink("Update", "Edit", new { id = item.S_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.S_id }) |
+                @Html.ActionLink("View", "Details", new { id = item.S_id })
+            </td>
+        </tr>
+    }
+
+</table>
